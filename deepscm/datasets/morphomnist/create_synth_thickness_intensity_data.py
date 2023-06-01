@@ -23,14 +23,15 @@ def get_intensity(img):
     return avg_intensity
 
 
-def model(n_samples=None, scale=0.5, invert=False):
-    with pyro.plate('observations', n_samples):
+def model(n_samples=None, scale=0.5, invert=False): # default is Fasle
+    with pyro.plate('observations', n_samples): # n_samples are independent of each other - so use "plate"
         thickness = 0.5 + pyro.sample('thickness', Gamma(10., 5.))
 
         if invert:
             loc = (thickness - 2) * -2
         else:
-            loc = (thickness - 2.5) * 2
+            # loc = (thickness - 2.5) * 2
+            loc = 2 * thickness - 5
 
         transforms = ComposeTransform([SigmoidTransform(), AffineTransform(64, 191)])
 
@@ -81,6 +82,8 @@ if __name__ == '__main__':
     parser.add_argument('-s', '--scale', type=float, default=0.5, help="scale of logit normal")
     parser.add_argument('-i', '--invert', default=False, action='store_true', help="inverses correlation")
 
+    # we simply use all the arguments by default
+
     args = parser.parse_args()
 
     print(f'Generating data for:\n {args.__dict__}')
@@ -91,7 +94,7 @@ if __name__ == '__main__':
 
     print('Generating Training Set')
     print('#######################')
-    gen_dataset(args, True)
+    gen_dataset(args, True) # already done
 
     print('Generating Test Set')
     print('###################')

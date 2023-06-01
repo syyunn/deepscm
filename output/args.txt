@@ -1,0 +1,2 @@
+Generated data for:
+ {'data_dir': '/Users/syyun//Dropbox (MIT)/deepscm/original', 'out_dir': '/Users/syyun//Dropbox (MIT)/deepscm/output', 'digit_class': None, 'scale': 0.5, 'invert': False}
